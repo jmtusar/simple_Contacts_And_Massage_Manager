@@ -10,10 +10,10 @@ public class Main {
     public static void main(String[] args){
         contacts = new ArrayList<>();
         System.out.println("Welcome to ****ing programming world");
-        showInitializOption();
+        showInitialOption();
     }
 
-    private static void showInitializOption(){
+    private static void showInitialOption(){
         System.out.println("Please select one: "+
                 "\n\t1. Manage Contacts"+
                 "\n\t2. Massages"+
@@ -54,8 +54,50 @@ public class Main {
                 deleteContact();
                 break;
             default:
-                showInitializOption();
+                showInitialOption();
                 break;
+        }
+    }
+
+    private static void deleteContact() {
+        System.out.println("Please enter the contact name for deleting:");
+        String name = scanner.next();
+        if(name.equals("")){
+            System.out.println("Please enter the name:");
+            deleteContact();
+        }else {
+            boolean doesExist= false;
+            for(Contact c:contacts){
+                if(c.getName().equals(name)){
+                    doesExist = true;
+                    contacts.remove(c);
+                }
+            }
+            if(!doesExist){
+                System.out.println("There are no such contact.");
+            }
+            showInitialOption();
+        }
+    }
+
+    private static void searchContact() {
+        System.out.println("Please enter the contact name:");
+        String name = scanner.next();
+        if(name.equals("")){
+            System.out.println("Please enter the name:");
+            searchContact();
+        }else {
+            boolean doesExist= false;
+            for(Contact c:contacts){
+                if(c.getName().equals(name)){
+                    doesExist = true;
+                    c.getDetails();
+                }
+            }
+            if(!doesExist){
+                System.out.println("There are no such contact.");
+            }
+            showInitialOption();
         }
     }
 
@@ -71,18 +113,35 @@ public class Main {
         if(name.equals("")||number.equals("")||email.equals("")){
             System.out.println("Please enter the all information:");
             addNewContact();
-        }else {
-            Contact contact = new Contact(name,number,email);
-            contacts.add(contact);
         }
-        showInitializOption();
+        else {
+
+            boolean doesExit = false;
+            for(Contact c: contacts){
+                if(c.getName().equals(name)){
+                    doesExit = true;
+                }
+            }
+            if(doesExit){
+                System.out.println(name+" is already exists...");
+                addNewContact();
+            }
+            else {
+                Contact contact = new Contact(name,number,email);
+                contacts.add(contact);
+                System.out.println(name+ " added successfully....");
+            }
+
+        }
+        showInitialOption();
     }
 
     private static void showAllContacts() {
         for(Contact c:contacts){
             c.getDetails();
+            System.out.println("******************");
         }
-        showInitializOption();
+        showInitialOption();
     }
 
 }
