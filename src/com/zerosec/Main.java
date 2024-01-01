@@ -32,6 +32,46 @@ public class Main {
         }
     }
 
+    private static void manageMassages() {
+        System.out.println("Please select one:"+
+                "\n\t1. Show all massages"+
+                "\n\t2. send a new massage"+
+                "\n\t3. Go back");
+        int choice = scanner.nextInt();
+        switch (choice){
+            case 1:
+                showAllMassages();
+                break;
+            case 2:
+                sendNewMassage();
+                break;
+            default:
+                showInitialOption();
+                break;
+        }
+    }
+
+    private static void showAllMassages() {
+        ArrayList<Massage> allMassages = new ArrayList<>();
+        for (Contact c: contacts){
+            allMassages.addAll(c.getMassages());
+        }
+
+        if(allMassages.size()>0){
+            for(Massage c: allMassages){
+                c.getDetails();
+                System.out.println("***********");
+
+            }
+        }
+        else {
+            System.out.println("You don't have any massages.....");
+
+        }
+
+        showInitialOption();
+    }
+
     private static void manageContacts() {
         System.out.println("Please select one:"+
                 "\n\t1. Show all contacts"+
