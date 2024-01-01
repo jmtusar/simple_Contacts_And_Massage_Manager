@@ -7,6 +7,7 @@ public class Main {
 
     private static ArrayList<Contact> contacts;
     private static Scanner scanner;
+    private static int id = 0;
     public static void main(String[] args){
         contacts = new ArrayList<>();
         System.out.println("Welcome to ****ing programming world");
@@ -49,6 +50,44 @@ public class Main {
                 showInitialOption();
                 break;
         }
+    }
+
+    private static void sendNewMassage() {
+        System.out.println("Who are you going to send massage: ");
+        String name = scanner.next();
+        if(name.equals("")) {
+            System.out.println("Please enter the name:");
+            sendNewMassage();
+        }else {
+            boolean doesExist = false;
+            for (Contact c:contacts){
+                if(c.getName().equals(name)){
+                    doesExist = true;
+                }
+            }
+            if(doesExist){
+                System.out.println("What are you going to say....");
+                String text = scanner.next();
+                if(text.equals("")){
+                    System.out.println("Please write some text......");
+                    sendNewMassage();
+                }else {
+                    id++;
+                    Massage newMassage = new Massage(text,name,id);
+                    for (Contact c : contacts){
+                        if(c.getName().equals(name)){
+                            ArrayList<Massage> newMassages = c.getMassages();
+                            newMassages.add(newMassage);
+                            c.setMassages(newMassages);
+
+                        }
+                    }
+                }
+            }else {
+                System.out.println("There are no such contact.");
+            }
+        }
+        showInitialOption();
     }
 
     private static void showAllMassages() {
@@ -177,10 +216,15 @@ public class Main {
     }
 
     private static void showAllContacts() {
-        for(Contact c:contacts){
-            c.getDetails();
-            System.out.println("******************");
+        if(contacts.size()>0){
+            for(Contact c:contacts){
+                c.getDetails();
+                System.out.println("******************");
+            }
+        }else{
+            System.out.println("You don't have any contact.");
         }
+
         showInitialOption();
     }
 
